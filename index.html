@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <title>First Web Page</title>
+        <style>
+            .dice-image {
+                max-width: 300px;
+                margin: 20px 0;
+            }
+        </style>
+    </head> 
+    <body>
+        <h1>Welcome to Justin's Coding to Japan series!</h1>   
+        <p>Please click to roll the dice:</p>
+        <button onclick="rollDice()">Roll the Dice!</button>
+        <div id="result"></div>
+        
+        <script>
+            function getRandomNumber() {
+                return Math.floor(Math.random() * 6) + 1;
+            }
+            
+            function rollDice() {
+                const dice1 = getRandomNumber();
+                const dice2 = getRandomNumber();
+                
+                let message = "Dice 1: " + dice1 + "<br>Dice 2: " + dice2 + "<br>";
+                
+                if (dice1 === 6 && dice2 === 6) {
+                    message += "DOUBLE 6! SUCK ON JAPANESE TITTIES<br>";
+                    message += '<img src="https://i.imgur.com/h8dCuTt.jpg" alt="Double 6 Celebration" class="dice-image">';
+                } else if (dice1 === 6 || dice2 === 6) {
+                    message += "SUCK ON JAPANESE TITTIES<br>";
+                    message += '<img src="https://i.imgur.com/h8dCuTt.jpg" alt="Single 6 Celebration" class="dice-image">';
+                } else {
+                    message += "Keep rolling kid, it'll come";
+                }
+                
+                document.getElementById("result").innerHTML = message;
+            }
+        </script>
+    </body>
+</html>
