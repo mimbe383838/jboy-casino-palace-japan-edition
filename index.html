@@ -3,6 +3,7 @@
     <head> 
         <title>First Web Page</title>
         <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
         <style>
             .dice-image {
                 max-width: 300px;
@@ -19,6 +20,77 @@
                 letter-spacing: 2px;
                 line-height: 1.5;
                 animation: glow 1.5s ease-in-out infinite alternate;
+            }
+            .dice {
+                width: 60px;
+                height: 60px;
+                background-color: white;
+                border-radius: 10px;
+                position: fixed;
+                box-shadow: 0 0 20px rgba(255,255,255,0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 32px;
+                font-weight: bold;
+                color: #000;
+                z-index: 1000;
+                opacity: 0;
+                transform: scale(0);
+                pointer-events: none;
+                transform-style: preserve-3d;
+                perspective: 1000px;
+            }
+            .dice.rolling {
+                display: flex;
+                animation: rollDice 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            }
+            .dice.dice1 {
+                left: calc(50% - 30px);
+                top: calc(50% - 100px);
+            }
+            .dice.dice2 {
+                left: calc(50% - 30px);
+                top: calc(50% + 40px);
+                animation-delay: 0.2s;
+            }
+            @keyframes rollDice {
+                0% {
+                    transform: translateY(-100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    transform: translateY(0) rotateX(180deg) rotateY(180deg) rotateZ(180deg);
+                    opacity: 1;
+                }
+                20% {
+                    transform: translateY(-20px) rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+                }
+                30% {
+                    transform: translateY(0) rotateX(540deg) rotateY(540deg) rotateZ(540deg);
+                }
+                40% {
+                    transform: translateY(-10px) rotateX(720deg) rotateY(720deg) rotateZ(720deg);
+                }
+                50% {
+                    transform: translateY(0) rotateX(900deg) rotateY(900deg) rotateZ(900deg);
+                }
+                60% {
+                    transform: translateY(-5px) rotateX(1080deg) rotateY(1080deg) rotateZ(1080deg);
+                }
+                70% {
+                    transform: translateY(0) rotateX(1260deg) rotateY(1260deg) rotateZ(1260deg);
+                }
+                80% {
+                    transform: translateY(-2px) rotateX(1440deg) rotateY(1440deg) rotateZ(1440deg);
+                }
+                90% {
+                    transform: translateY(0) rotateX(1620deg) rotateY(1620deg) rotateZ(1620deg);
+                }
+                100% {
+                    transform: scale(0) rotateX(1800deg) rotateY(1800deg) rotateZ(1800deg);
+                    opacity: 0;
+                }
             }
             @keyframes glow {
                 from {
@@ -39,11 +111,17 @@
                 border-radius: 4px;
                 text-transform: uppercase;
                 transition: all 0.3s ease;
+                position: relative;
+                z-index: 100;
             }
             button:hover {
                 background-color: #00ff00;
                 color: #000;
                 box-shadow: 0 0 10px #00ff00;
+            }
+            button:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
             }
             h1 {
                 font-family: 'Press Start 2P', cursive;
@@ -51,6 +129,7 @@
                 color: #fff;
                 text-shadow: 2px 2px #000;
                 margin: 20px 0;
+                text-align: center;
             }
             body {
                 background-color: #111;
@@ -58,19 +137,42 @@
                 flex-direction: column;
                 align-items: center;
                 padding: 20px;
+                overflow-x: hidden;
+                min-height: 100vh;
+                margin: 0;
             }
             #result {
                 font-family: 'Press Start 2P', cursive;
                 color: #fff;
                 margin-top: 20px;
                 text-align: center;
+                position: relative;
+                z-index: 100;
+                min-height: 100px;
+            }
+            .celebration-result {
+                opacity: 0;
+                transform: scale(0.5);
+                transition: all 0.3s ease;
+            }
+            .celebration-result.show {
+                opacity: 1;
+                transform: scale(1);
+            }
+            .result-image {
+                margin-top: 20px;
+                max-width: 300px;
+                border-radius: 8px;
+                box-shadow: 0 0 20px rgba(255,255,255,0.3);
             }
         </style>
     </head> 
     <body>
         <h1>Welcome to Justin's Coding to Japan series!</h1>   
         <p class="roll-instruction">Please click to roll the dice:</p>
-        <button onclick="rollDice()">Roll the Dice!</button>
+        <button onclick="rollDice(this)" id="rollButton">Roll the Dice!</button>
+        <div class="dice dice1">1</div>
+        <div class="dice dice2">1</div>
         <div id="result"></div>
         
         <script>
@@ -78,23 +180,99 @@
                 return Math.floor(Math.random() * 6) + 1;
             }
             
-            function rollDice() {
-                const dice1 = getRandomNumber();
-                const dice2 = getRandomNumber();
+            function fireConfetti() {
+                // First burst
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+
+                // Side bursts
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 50,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 }
+                    });
+                    confetti({
+                        particleCount: 50,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 }
+                    });
+                }, 250);
+
+                // Finale
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 150,
+                        spread: 100,
+                        origin: { y: 0.6 },
+                        colors: ['#FF0000', '#FFF700', '#FF00FF', '#00FF00', '#0000FF']
+                    });
+                }, 500);
+            }
+            
+            let isRolling = false;
+            
+            function rollDice(button) {
+                if (isRolling) return;
                 
-                let message = "Dice 1: " + dice1 + "<br>Dice 2: " + dice2 + "<br>";
+                isRolling = true;
+                button.disabled = true;
                 
-                if (dice1 === 6 && dice2 === 6) {
-                    message += "DOUBLE 6! SUCK ON JAPANESE TITTIES<br>";
-                    message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Double 6 Celebration" class="dice-image">';
-                } else if (dice1 === 6 || dice2 === 6) {
-                    message += "SUCK ON JAPANESE TITTIES<br>";
-                    message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Single 6 Celebration" class="dice-image">';
-                } else {
-                    message += "Keep rolling kid, it'll come";
-                }
+                // Clear previous result immediately
+                document.getElementById("result").innerHTML = '';
                 
-                document.getElementById("result").innerHTML = message;
+                const dice1Value = getRandomNumber();
+                const dice2Value = getRandomNumber();
+                
+                // Update dice numbers and trigger animations
+                const dice1Element = document.querySelector('.dice1');
+                const dice2Element = document.querySelector('.dice2');
+                
+                dice1Element.textContent = dice1Value;
+                dice2Element.textContent = dice2Value;
+                
+                // Reset and trigger dice animations
+                [dice1Element, dice2Element].forEach(dice => {
+                    dice.classList.remove('rolling');
+                    void dice.offsetWidth; // Trigger reflow
+                    dice.classList.add('rolling');
+                });
+                
+                // Delay the result display to match the animation
+                setTimeout(() => {
+                    let message = "Dice 1: " + dice1Value + "<br>Dice 2: " + dice2Value + "<br>";
+                    
+                    if (dice1Value === 6 && dice2Value === 6) {
+                        message += "DOUBLE 6! SUCK ON JAPANESE TITTIES<br>";
+                        message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Double 6 Celebration" class="result-image">';
+                        fireConfetti(); // Double confetti for double 6!
+                        setTimeout(fireConfetti, 300); // Extra confetti burst!
+                    } else if (dice1Value === 6 || dice2Value === 6) {
+                        message += "SUCK ON JAPANESE TITTIES<br>";
+                        message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Single 6 Celebration" class="result-image">';
+                        fireConfetti(); // Single confetti burst
+                    } else {
+                        message += "Keep dreaming, keep throwing the dice<br>";
+                        message += '<img src="https://i.imgur.com/QJ3SY9j.jpeg" alt="Keep Dreaming" class="result-image">';
+                    }
+                    
+                    const resultDiv = document.getElementById("result");
+                    resultDiv.innerHTML = `<div class="celebration-result">${message}</div>`;
+                    
+                    // Show result immediately after setting content
+                    requestAnimationFrame(() => {
+                        resultDiv.querySelector('.celebration-result').classList.add('show');
+                    });
+                    
+                    // Re-enable button and reset rolling state
+                    button.disabled = false;
+                    isRolling = false;
+                }, 1300);
             }
         </script>
     </body>
