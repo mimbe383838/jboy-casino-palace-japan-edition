@@ -2,16 +2,74 @@
 <html>
     <head> 
         <title>First Web Page</title>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
         <style>
             .dice-image {
                 max-width: 300px;
                 margin: 20px 0;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+            .roll-instruction {
+                font-family: 'Press Start 2P', cursive;
+                font-size: 18px;
+                color: #00ff00;
+                text-shadow: 2px 2px #000;
+                margin: 25px 0;
+                letter-spacing: 2px;
+                line-height: 1.5;
+                animation: glow 1.5s ease-in-out infinite alternate;
+            }
+            @keyframes glow {
+                from {
+                    text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00;
+                }
+                to {
+                    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+                }
+            }
+            button {
+                font-family: 'Press Start 2P', cursive;
+                padding: 15px 25px;
+                font-size: 14px;
+                cursor: pointer;
+                background-color: #000;
+                color: #00ff00;
+                border: 2px solid #00ff00;
+                border-radius: 4px;
+                text-transform: uppercase;
+                transition: all 0.3s ease;
+            }
+            button:hover {
+                background-color: #00ff00;
+                color: #000;
+                box-shadow: 0 0 10px #00ff00;
+            }
+            h1 {
+                font-family: 'Press Start 2P', cursive;
+                font-size: 24px;
+                color: #fff;
+                text-shadow: 2px 2px #000;
+                margin: 20px 0;
+            }
+            body {
+                background-color: #111;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+            }
+            #result {
+                font-family: 'Press Start 2P', cursive;
+                color: #fff;
+                margin-top: 20px;
+                text-align: center;
             }
         </style>
     </head> 
     <body>
         <h1>Welcome to Justin's Coding to Japan series!</h1>   
-        <p>Please click to roll the dice:</p>
+        <p class="roll-instruction">Please click to roll the dice:</p>
         <button onclick="rollDice()">Roll the Dice!</button>
         <div id="result"></div>
         
@@ -28,10 +86,10 @@
                 
                 if (dice1 === 6 && dice2 === 6) {
                     message += "DOUBLE 6! SUCK ON JAPANESE TITTIES<br>";
-                    message += '<img src="https://i.imgur.com/h8dCuTt.jpg" alt="Double 6 Celebration" class="dice-image">';
+                    message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Double 6 Celebration" class="dice-image">';
                 } else if (dice1 === 6 || dice2 === 6) {
                     message += "SUCK ON JAPANESE TITTIES<br>";
-                    message += '<img src="https://i.imgur.com/h8dCuTt.jpg" alt="Single 6 Celebration" class="dice-image">';
+                    message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Single 6 Celebration" class="dice-image">';
                 } else {
                     message += "Keep rolling kid, it'll come";
                 }
