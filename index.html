@@ -2,7 +2,7 @@
 <html>
     <head> 
         <title>First Web Page</title>
-        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
         <style>
             .dice-image {
@@ -14,24 +14,58 @@
             .roll-instruction {
                 font-family: 'Press Start 2P', cursive;
                 font-size: 18px;
-                color: #00ff00;
-                text-shadow: 2px 2px #000;
+                color: #a0a0a0;
+                text-shadow: 2px 2px #000,
+                            0 0 10px rgba(255,255,255,0.3);
                 margin: 25px 0;
                 letter-spacing: 2px;
                 line-height: 1.5;
-                animation: glow 1.5s ease-in-out infinite alternate;
+                animation: shine 2s infinite;
             }
+            .roll-instruction span {
+                display: inline-block;
+                animation: waveFlash 2s infinite;
+            }
+            @keyframes waveFlash {
+                0%, 100% {
+                    color: #fff;
+                }
+                50% {
+                    color: #ff0000;
+                }
+            }
+            .roll-instruction span:nth-child(1) { animation-delay: 0s; }
+            .roll-instruction span:nth-child(2) { animation-delay: 0.1s; }
+            .roll-instruction span:nth-child(3) { animation-delay: 0.2s; }
+            .roll-instruction span:nth-child(4) { animation-delay: 0.3s; }
+            .roll-instruction span:nth-child(5) { animation-delay: 0.4s; }
+            .roll-instruction span:nth-child(6) { animation-delay: 0.5s; }
+            .roll-instruction span:nth-child(7) { animation-delay: 0.6s; }
+            .roll-instruction span:nth-child(8) { animation-delay: 0.7s; }
+            .roll-instruction span:nth-child(9) { animation-delay: 0.8s; }
+            .roll-instruction span:nth-child(10) { animation-delay: 0.9s; }
+            .roll-instruction span:nth-child(11) { animation-delay: 1.0s; }
+            .roll-instruction span:nth-child(12) { animation-delay: 1.1s; }
+            .roll-instruction span:nth-child(13) { animation-delay: 1.2s; }
+            .roll-instruction span:nth-child(14) { animation-delay: 1.3s; }
+            .roll-instruction span:nth-child(15) { animation-delay: 1.4s; }
+            .roll-instruction span:nth-child(16) { animation-delay: 1.5s; }
+            .roll-instruction span:nth-child(17) { animation-delay: 1.6s; }
+            .roll-instruction span:nth-child(18) { animation-delay: 1.7s; }
+            .roll-instruction span:nth-child(19) { animation-delay: 1.8s; }
+            .roll-instruction span:nth-child(20) { animation-delay: 1.9s; }
             .dice {
-                width: 60px;
-                height: 60px;
-                background-color: white;
-                border-radius: 10px;
+                width: 80px;
+                height: 80px;
+                background-color: #f0f0f0;
+                border-radius: 12px;
                 position: fixed;
-                box-shadow: 0 0 20px rgba(255,255,255,0.8);
+                box-shadow: 0 0 15px rgba(255,255,255,0.5),
+                            inset 0 0 10px rgba(0,0,0,0.1);
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                font-size: 32px;
+                font-size: 40px;
                 font-weight: bold;
                 color: #000;
                 z-index: 1000;
@@ -40,18 +74,19 @@
                 pointer-events: none;
                 transform-style: preserve-3d;
                 perspective: 1000px;
+                border: 2px solid #000;
             }
             .dice.rolling {
                 display: flex;
                 animation: rollDice 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             }
             .dice.dice1 {
-                left: calc(50% - 30px);
+                left: calc(50% - 40px);
                 top: calc(50% - 100px);
             }
             .dice.dice2 {
-                left: calc(50% - 30px);
-                top: calc(50% + 40px);
+                left: calc(50% - 40px);
+                top: calc(50% + 20px);
                 animation-delay: 0.2s;
             }
             @keyframes rollDice {
@@ -92,12 +127,32 @@
                     opacity: 0;
                 }
             }
-            @keyframes glow {
-                from {
-                    text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00;
+            @keyframes shine {
+                0% {
+                    text-shadow: 2px 2px #000,
+                                0 0 10px rgba(255,255,255,0.3);
                 }
-                to {
-                    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+                50% {
+                    text-shadow: 2px 2px #000,
+                                0 0 20px rgba(255,255,255,0.6);
+                }
+                100% {
+                    text-shadow: 2px 2px #000,
+                                0 0 10px rgba(255,255,255,0.3);
+                }
+            }
+            @keyframes flashText {
+                0% {
+                    color: #fff;
+                    text-shadow: 2px 2px #000;
+                }
+                50% {
+                    color: #ff0000;
+                    text-shadow: 2px 2px #000;
+                }
+                100% {
+                    color: #fff;
+                    text-shadow: 2px 2px #000;
                 }
             }
             button {
@@ -105,19 +160,21 @@
                 padding: 15px 25px;
                 font-size: 14px;
                 cursor: pointer;
-                background-color: #000;
-                color: #00ff00;
-                border: 2px solid #00ff00;
+                background-color: #a0a0a0;
+                color: #000;
+                border: 2px solid #000;
                 border-radius: 4px;
                 text-transform: uppercase;
                 transition: all 0.3s ease;
                 position: relative;
                 z-index: 100;
+                text-shadow: 1px 1px rgba(255,255,255,0.3);
+                box-shadow: 0 0 10px rgba(255,255,255,0.3);
             }
             button:hover {
-                background-color: #00ff00;
+                background-color: #c0c0c0;
                 color: #000;
-                box-shadow: 0 0 10px #00ff00;
+                box-shadow: 0 0 20px rgba(255,255,255,0.6);
             }
             button:disabled {
                 opacity: 0.5;
@@ -130,6 +187,7 @@
                 text-shadow: 2px 2px #000;
                 margin: 20px 0;
                 text-align: center;
+                animation: flashText 1s infinite;
             }
             body {
                 background-color: #111;
@@ -164,6 +222,42 @@
                 max-width: 300px;
                 border-radius: 8px;
                 box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            }
+            .keep-dreaming {
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 700;
+                font-size: 20px;
+                color: #ffffff;
+                text-shadow: 0 0 10px #ffffff,
+                            0 0 20px #ffffff,
+                            0 0 30px #ffffff;
+                letter-spacing: 2px;
+                margin: 20px 0;
+                animation: cyberGlow 2s infinite;
+            }
+            @keyframes cyberGlow {
+                0%, 100% {
+                    text-shadow: 0 0 10px #ffffff,
+                                0 0 20px #ffffff,
+                                0 0 30px #ffffff;
+                }
+                50% {
+                    text-shadow: 0 0 20px #ffffff,
+                                0 0 40px #ffffff,
+                                0 0 60px #ffffff;
+                }
+            }
+            .celebration-message {
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 700;
+                font-size: 20px;
+                color: #ffffff;
+                text-shadow: 0 0 10px #ffffff,
+                            0 0 20px #ffffff,
+                            0 0 30px #ffffff;
+                letter-spacing: 2px;
+                margin: 20px 0;
+                animation: cyberGlow 2s infinite;
             }
         </style>
     </head> 
@@ -245,19 +339,20 @@
                 
                 // Delay the result display to match the animation
                 setTimeout(() => {
-                    let message = "Dice 1: " + dice1Value + "<br>Dice 2: " + dice2Value + "<br>";
+                    let message = '<span style="color: #ff0000;">Dice 1: </span><span style="color: #fff;">' + dice1Value + '</span><br>' +
+                                 '<span style="color: #ff0000;">Dice 2: </span><span style="color: #fff;">' + dice2Value + '</span><br>';
                     
                     if (dice1Value === 6 && dice2Value === 6) {
-                        message += "DOUBLE 6! SUCK ON JAPANESE TITTIES<br>";
+                        message += '<div class="celebration-message">DOUBLE 6! SUCK ON JAPANESE TITTIES</div><br>';
                         message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Double 6 Celebration" class="result-image">';
                         fireConfetti(); // Double confetti for double 6!
                         setTimeout(fireConfetti, 300); // Extra confetti burst!
                     } else if (dice1Value === 6 || dice2Value === 6) {
-                        message += "SUCK ON JAPANESE TITTIES<br>";
+                        message += '<div class="celebration-message">SUCK ON JAPANESE TITTIES</div><br>';
                         message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Single 6 Celebration" class="result-image">';
                         fireConfetti(); // Single confetti burst
                     } else {
-                        message += "Keep dreaming, keep throwing the dice<br>";
+                        message += '<div class="keep-dreaming">Keep dreaming, keep throwing the dice</div><br>';
                         message += '<img src="https://i.imgur.com/QJ3SY9j.jpeg" alt="Keep Dreaming" class="result-image">';
                     }
                     
