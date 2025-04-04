@@ -223,6 +223,32 @@
                 border-radius: 8px;
                 box-shadow: 0 0 20px rgba(255,255,255,0.3);
             }
+            .celebration-image {
+                margin-top: 20px;
+                max-width: 300px;
+                border-radius: 8px;
+                box-shadow: 0 0 20px rgba(255,255,255,0.3);
+                animation: popImage 1.5s infinite;
+                transform-origin: center;
+            }
+            @keyframes popImage {
+                0%, 100% {
+                    transform: scale(1);
+                    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+                }
+                25% {
+                    transform: scale(1.05);
+                    box-shadow: 0 0 30px rgba(255,255,255,0.5);
+                }
+                50% {
+                    transform: scale(1);
+                    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+                }
+                75% {
+                    transform: scale(0.95);
+                    box-shadow: 0 0 10px rgba(255,255,255,0.2);
+                }
+            }
             .keep-dreaming {
                 font-family: 'Orbitron', sans-serif;
                 font-weight: 700;
@@ -257,7 +283,34 @@
                             0 0 30px #ffffff;
                 letter-spacing: 2px;
                 margin: 20px 0;
-                animation: cyberGlow 2s infinite;
+                animation: popGlow 1.5s infinite;
+                transform-origin: center;
+            }
+            @keyframes popGlow {
+                0%, 100% {
+                    transform: scale(1);
+                    text-shadow: 0 0 10px #ffffff,
+                                0 0 20px #ffffff,
+                                0 0 30px #ffffff;
+                }
+                25% {
+                    transform: scale(1.1);
+                    text-shadow: 0 0 20px #ffffff,
+                                0 0 40px #ffffff,
+                                0 0 60px #ffffff;
+                }
+                50% {
+                    transform: scale(1);
+                    text-shadow: 0 0 10px #ffffff,
+                                0 0 20px #ffffff,
+                                0 0 30px #ffffff;
+                }
+                75% {
+                    transform: scale(0.9);
+                    text-shadow: 0 0 5px #ffffff,
+                                0 0 10px #ffffff,
+                                0 0 15px #ffffff;
+                }
             }
         </style>
     </head> 
@@ -339,20 +392,22 @@
                 
                 // Delay the result display to match the animation
                 setTimeout(() => {
-                    let message = '<span style="color: #ff0000;">Dice 1: </span><span style="color: #fff;">' + dice1Value + '</span><br>' +
-                                 '<span style="color: #ff0000;">Dice 2: </span><span style="color: #fff;">' + dice2Value + '</span><br>';
+                    let message = '<div style="font-family: \'Orbitron\', sans-serif; font-weight: 700; font-size: 18px;">' +
+                                 '<span style="color: #ff0000;">Dice 1: </span><span style="color: #fff;">' + dice1Value + '</span><br>' +
+                                 '<span style="color: #ff0000;">Dice 2: </span><span style="color: #fff;">' + dice2Value + '</span><br>' +
+                                 '</div>';
                     
                     if (dice1Value === 6 && dice2Value === 6) {
                         message += '<div class="celebration-message">DOUBLE 6! SUCK ON JAPANESE TITTIES</div><br>';
-                        message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Double 6 Celebration" class="result-image">';
+                        message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Double 6 Celebration" class="celebration-image">';
                         fireConfetti(); // Double confetti for double 6!
                         setTimeout(fireConfetti, 300); // Extra confetti burst!
                     } else if (dice1Value === 6 || dice2Value === 6) {
                         message += '<div class="celebration-message">SUCK ON JAPANESE TITTIES</div><br>';
-                        message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Single 6 Celebration" class="result-image">';
+                        message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Single 6 Celebration" class="celebration-image">';
                         fireConfetti(); // Single confetti burst
                     } else {
-                        message += '<div class="keep-dreaming">Keep dreaming, keep throwing the dice</div><br>';
+                        message += '<div class="keep-dreaming">Keep Dreaming, Keep Throwing The Dice</div><br>';
                         message += '<img src="https://i.imgur.com/QJ3SY9j.jpeg" alt="Keep Dreaming" class="result-image">';
                     }
                     
