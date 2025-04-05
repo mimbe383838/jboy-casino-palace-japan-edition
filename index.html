@@ -170,6 +170,7 @@
                 z-index: 100;
                 text-shadow: 1px 1px rgba(255,255,255,0.3);
                 box-shadow: 0 0 10px rgba(255,255,255,0.3);
+                margin: 0 10px;
             }
             button:hover {
                 background-color: #c0c0c0;
@@ -312,17 +313,57 @@
                                 0 0 15px #ffffff;
                 }
             }
+            .score-display {
+                font-family: 'Orbitron', sans-serif;
+                font-size: 18px;
+                color: #ffffff;
+                text-shadow: 0 0 10px #ffffff,
+                            0 0 20px #ffffff;
+                margin: 20px 0;
+                display: flex;
+                justify-content: center;
+                gap: 40px;
+            }
+            .score-display span {
+                padding: 10px 20px;
+                background-color: rgba(0, 0, 0, 0.5);
+                border-radius: 8px;
+                border: 2px solid #ffffff;
+            }
+            .congratulations {
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 700;
+                font-size: 24px;
+                color: #ffffff;
+                text-shadow: 0 0 10px #ffffff,
+                            0 0 20px #ffffff,
+                            0 0 30px #ffffff;
+                letter-spacing: 2px;
+                margin: 20px 0;
+                animation: popGlow 1.5s infinite;
+                transform-origin: center;
+            }
         </style>
     </head> 
     <body>
         <h1>Welcome to Justin's Coding to Japan series!</h1>   
         <p class="roll-instruction">Please click to roll the dice:</p>
         <button onclick="rollDice(this)" id="rollButton">Roll the Dice!</button>
+        <button onclick="restartGame()" id="playAgainButton" style="display: none;">Play Again</button>
         <div class="dice dice1">1</div>
         <div class="dice dice2">1</div>
         <div id="result"></div>
         
         <script>
+            let isRolling = false;
+            
+            function restartGame() {
+                document.getElementById("result").innerHTML = '';
+                document.getElementById("rollButton").style.display = 'block';
+                document.getElementById("playAgainButton").style.display = 'none';
+                document.getElementById("rollButton").disabled = false;
+            }
+            
             function getRandomNumber() {
                 return Math.floor(Math.random() * 6) + 1;
             }
@@ -361,8 +402,6 @@
                     });
                 }, 500);
             }
-            
-            let isRolling = false;
             
             function rollDice(button) {
                 if (isRolling) return;
@@ -410,6 +449,11 @@
                         message += '<div class="keep-dreaming">Keep Dreaming, Keep Throwing The Dice</div><br>';
                         message += '<img src="https://i.imgur.com/QJ3SY9j.jpeg" alt="Keep Dreaming" class="result-image">';
                     }
+
+                    // Add congratulations message and play again button for wins
+                    if (dice1Value === 6 || dice2Value === 6) {
+                        message += '<div class="congratulations">CONGRATULATIONS YOU\'VE WON!</div>';
+                    }
                     
                     const resultDiv = document.getElementById("result");
                     resultDiv.innerHTML = `<div class="celebration-result">${message}</div>`;
@@ -419,8 +463,17 @@
                         resultDiv.querySelector('.celebration-result').classList.add('show');
                     });
                     
-                    // Re-enable button and reset rolling state
-                    button.disabled = false;
+                    if (dice1Value === 6 || dice2Value === 6) {
+                        // For wins, show play again button
+                        document.getElementById("rollButton").style.display = 'none';
+                        document.getElementById("playAgainButton").style.display = 'block';
+                    } else {
+                        // For losses, automatically restart after 5 seconds
+                        setTimeout(() => {
+                            restartGame();
+                        }, 5000);
+                    }
+                    
                     isRolling = false;
                 }, 1300);
             }
