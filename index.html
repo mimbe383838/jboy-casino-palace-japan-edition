@@ -438,21 +438,45 @@
                     
                     if (dice1Value === 6 && dice2Value === 6) {
                         message += '<div class="celebration-message">DOUBLE 6! SUCK ON JAPANESE TITTIES</div><br>';
+                        message += '<div class="celebration-message">CONGRATULATIONS, YOU ARE A WINNER. CHARLIE YOU\'VE WON</div><br>';
                         message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Double 6 Celebration" class="celebration-image">';
                         fireConfetti(); // Double confetti for double 6!
                         setTimeout(fireConfetti, 300); // Extra confetti burst!
+                        // Disable roll button and show play again button
+                        document.getElementById("rollButton").style.display = 'none';
+                        document.getElementById("playAgainButton").style.display = 'block';
+                        document.getElementById("rollButton").disabled = true;
+                        
+                        // Automatically reset the game after 5 seconds
+                        setTimeout(() => {
+                            restartGame();
+                        }, 5000);
                     } else if (dice1Value === 6 || dice2Value === 6) {
                         message += '<div class="celebration-message">SUCK ON JAPANESE TITTIES</div><br>';
+                        message += '<div class="celebration-message">CONGRATULATIONS, YOU ARE A WINNER. CHARLIE YOU\'VE WON</div><br>';
                         message += '<img src="https://i.imgur.com/hhtR1pc.jpeg" alt="Single 6 Celebration" class="celebration-image">';
                         fireConfetti(); // Single confetti burst
+                        // Disable roll button and show play again button
+                        document.getElementById("rollButton").style.display = 'none';
+                        document.getElementById("playAgainButton").style.display = 'block';
+                        document.getElementById("rollButton").disabled = true;
+                        
+                        // Automatically reset the game after 5 seconds
+                        setTimeout(() => {
+                            restartGame();
+                        }, 5000);
                     } else {
-                        message += '<div class="keep-dreaming">Keep Dreaming, Keep Throwing The Dice</div><br>';
+                        message += '<div class="keep-dreaming">Sorry, You\'ve Lost. Please Click To Play Again</div><br>';
                         message += '<img src="https://i.imgur.com/QJ3SY9j.jpeg" alt="Keep Dreaming" class="result-image">';
-                    }
-
-                    // Add congratulations message and play again button for wins
-                    if (dice1Value === 6 || dice2Value === 6) {
-                        message += '<div class="congratulations">CONGRATULATIONS YOU\'VE WON!</div>';
+                        // Disable roll button and show play again button
+                        document.getElementById("rollButton").style.display = 'none';
+                        document.getElementById("playAgainButton").style.display = 'block';
+                        document.getElementById("rollButton").disabled = true;
+                        
+                        // Automatically reset the game after showing the message
+                        setTimeout(() => {
+                            restartGame();
+                        }, 2000);
                     }
                     
                     const resultDiv = document.getElementById("result");
@@ -462,17 +486,6 @@
                     requestAnimationFrame(() => {
                         resultDiv.querySelector('.celebration-result').classList.add('show');
                     });
-                    
-                    if (dice1Value === 6 || dice2Value === 6) {
-                        // For wins, show play again button
-                        document.getElementById("rollButton").style.display = 'none';
-                        document.getElementById("playAgainButton").style.display = 'block';
-                    } else {
-                        // For losses, automatically restart after 5 seconds
-                        setTimeout(() => {
-                            restartGame();
-                        }, 5000);
-                    }
                     
                     isRolling = false;
                 }, 1300);
